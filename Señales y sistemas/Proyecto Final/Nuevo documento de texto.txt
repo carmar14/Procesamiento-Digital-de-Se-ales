@@ -1,0 +1,11 @@
+Posibles proyectos:
+1)Detectar ritmo cardiaco en matlab : ex_ecg_sigprocessing, https://www.mathworks.com/help/dsp/examples/real-time-ecg-qrs-detection.html
+
+2)Generar un programa que escuche un piano y este reproduzca el sonido.
+
+3)Ecualizador:separar sonidos.
+
+4)Analizar EMG, extrar la envolvente.
+
+5)Simulacion en simulink y simscape de un sistema electromecanico
+
