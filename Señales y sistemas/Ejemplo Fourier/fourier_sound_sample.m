@@ -3,13 +3,16 @@ clear
 close all
 
 %-------ejemplo señal audio-----
-[y,Fs] = audioread("prueba.mp3");
+[y,Fs] = audioread("DoorScrm.wav");
 y=y(:,1);
 %------vector de tiempo----
 t=0:1/Fs:length(y)*(1/Fs)-(1/Fs);
 t=t';
 plot(t,y)
-
+xlabel('Tiempo(seg)')
+ylabel('y(t)')
+title('Señal en el tiempo')
+grid on
 sound(y,Fs)
 
 %-----calculo de los coeficientes de Fourier
@@ -31,6 +34,7 @@ plot(f,P1,'r')%,f,P3,'k')
 title('Espectro de amplitud unilateral de y(t)')
 xlabel('f (Hz)')
 ylabel('|Y(f)|')
+grid on
 %-----calcular fase----
 tol = 1e-6;
 Y_(abs(Y_) < tol) = 0;
@@ -42,3 +46,9 @@ xlabel('f (Hz)')
 ylabel('arg{Y(f)} °')
 grid on
 %-------ejemplo señal audio-----
+
+
+
+
+
+

@@ -1,0 +1,124 @@
+clc
+clear
+close all
+
+%-------ejemplo señal audio-----
+[y,Fs] = audioread("trompete.mp3");
+y=y(:,1);
+%------vector de tiempo----
+t=0:1/Fs:length(y)*(1/Fs)-(1/Fs);
+t=t';
+plot(t,y)
+xlabel('Tiempo(seg)')
+ylabel('y(t)')
+title('Señal en el tiempo')
+grid on
+sound(y,Fs)
+
+%-----calculo de los coeficientes de Fourier
+%Compute the Fourier transform of the signal.
+L=length(y);
+Y = fft(y);
+%Compute the two-sided spectrum P2. Then compute the single-sided spectrum P1 based on P2 and the even-valued signal length L.
+Y_= 2*Y(1:L/2+1);
+P2 = abs(Y/L);
+figure
+plot(2*P2);
+P1 = 2*P2(1:L/2+1);
+
+
+%Define the frequency domain f and plot the single-sided amplitude spectrum P1. 
+f = Fs*(0:(L/2))/L;
+figure
+plot(f,P1,'r')%,f,P3,'k') 
+title('Espectro de amplitud unilateral de y(t)')
+xlabel('f (Hz)')
+ylabel('|Y(f)|')
+grid on
+%-----calcular fase----
+tol = 1e-6;
+Y_(abs(Y_) < tol) = 0;
+fase=rad2deg(angle(Y_));
+figure
+plot(f,fase,'r')
+title('Fase de y(t)')
+xlabel('f (Hz)')
+ylabel('arg{Y(f)} °')
+grid on
+%-------ejemplo señal audio-----
+
+% Parámetros del efecto Wah-Wah
+
+fcMin = 300; % Frecuencia de corte mínima del filtro paso banda
+fcMax = 2000; % Frecuencia de corte máxima del filtro paso banda
+modulationRate = 1; % Tasa de modulación (ajusta según tus necesidades)
+
+% Calcula el tiempo y la envolvente para el efecto Wah-Wah
+t = (0:length(y)-1) / Fs;
+envelope = 1 + sin(2 * pi * modulationRate * t);
+
+% Inicializa la señal de salida
+outputSignal = zeros(size(inputSignal));
+
+% Aplica el efecto Wah-Wah
+for i = 1:length(inputSignal)
+    fc = fcMin + (fcMax - fcMin) * envelope(i);
+    [b, a] = butter(2, [fc*0.8 fc*1.2]/(Fs/2), 'bandpass'); % Filtro paso banda
+    outputSignal(i) = filter(b, a, inputSignal(i));
+end
+
+% Normaliza la señal de salida
+outputSignal = outputSignal / max(abs(outputSignal));
+
+% Reproduce la señal de salida
+sound(outputSignal, Fs);
+
+% %------ingresando al sistema-----
+% K=1;
+% tao=1/(2*pi*100);
+% h=tf(K,[tao 1]);
+% sal = lsim(h,y,t);
+% figure
+% plot(t,sal)
+% xlabel('Tiempo(seg)')
+% ylabel('y(t)')
+% title('Señal en el tiempo')
+% grid on
+% pause(3)
+% sound(sal,Fs)
+% 
+% %-----calculo de los coeficientes de Fourier
+% %Compute the Fourier transform of the signal.
+% L=length(y);
+% Y = fft(sal);
+% %Compute the two-sided spectrum P2. Then compute the single-sided spectrum P1 based on P2 and the even-valued signal length L.
+% Y_= 2*Y(1:L/2+1);
+% P2 = abs(Y/L);
+% figure
+% plot(2*P2);
+% P1 = 2*P2(1:L/2+1);
+% 
+% 
+% %Define the frequency domain f and plot the single-sided amplitude spectrum P1. 
+% f = Fs*(0:(L/2))/L;
+% figure
+% plot(f,P1,'r')%,f,P3,'k') 
+% title('Espectro de amplitud unilateral de y(t)')
+% xlabel('f (Hz)')
+% ylabel('|Y(f)|')
+% grid on
+% %-----calcular fase----
+% tol = 1e-6;
+% Y_(abs(Y_) < tol) = 0;
+% fase=rad2deg(angle(Y_));
+% figure
+% plot(f,fase,'r')
+% title('Fase de y(t)')
+% xlabel('f (Hz)')
+% ylabel('arg{Y(f)} °')
+% grid on
+% %-------ejemplo señal audio-----
+
+
+
+

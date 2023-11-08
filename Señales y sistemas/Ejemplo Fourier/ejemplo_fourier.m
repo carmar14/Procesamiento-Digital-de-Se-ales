@@ -10,6 +10,9 @@ t = (0:L-1)*T;        % Time vector
 S = 0.7*sin(2*pi*50*t)+ cos(2*pi*20*t+pi/4);
 figure
 plot(t,S)
+xlabel('Tiempo(seg)')
+ylabel('S(t)')
+title('Señal en el tiempo')
 
 %-----calculo de los coeficientes de Fourier y su espectro---
 Y = fft(S);
