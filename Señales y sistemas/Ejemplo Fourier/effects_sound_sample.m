@@ -3,7 +3,7 @@ clear
 close all
 
 %-------ejemplo señal audio-----
-[y,Fs] = audioread("DoorScrm.wav");
+[y,Fs] = audioread("51.wav");
 y=y(:,1);
 %------vector de tiempo----
 t=0:1/Fs:length(y)*(1/Fs)-(1/Fs);
@@ -13,7 +13,7 @@ xlabel('Tiempo(seg)')
 ylabel('y(t)')
 title('Señal en el tiempo')
 grid on
-sound(y,Fs)
+% sound(y,Fs)
 
 %-----calculo de los coeficientes de Fourier
 %Compute the Fourier transform of the signal.
@@ -49,29 +49,29 @@ grid on
 
 % Parámetros del efecto Wah-Wah
 
-fcMin = 300; % Frecuencia de corte mínima del filtro paso banda
-fcMax = 2000; % Frecuencia de corte máxima del filtro paso banda
-modulationRate = 1; % Tasa de modulación (ajusta según tus necesidades)
-
-% Calcula el tiempo y la envolvente para el efecto Wah-Wah
-t = (0:length(y)-1) / Fs;
-envelope = 1 + sin(2 * pi * modulationRate * t);
-
-% Inicializa la señal de salida
-outputSignal = zeros(size(y));
-
-% Aplica el efecto Wah-Wah
-for i = 1:length(y)
-    fc = fcMin + (fcMax - fcMin) * envelope(i);
-    [b, a] = butter(2, [fc*0.8 fc*1.2]/(Fs/2), 'bandpass'); % Filtro paso banda
-    outputSignal(i) = filter(b, a, y(i));
-end
-
-% Normaliza la señal de salida
-outputSignal = outputSignal / max(abs(outputSignal));
-pause(5)
-% Reproduce la señal de salida
-sound(outputSignal, Fs);
+% fcMin = 300; % Frecuencia de corte mínima del filtro paso banda
+% fcMax = 2000; % Frecuencia de corte máxima del filtro paso banda
+% modulationRate = 1; % Tasa de modulación (ajusta según tus necesidades)
+% 
+% % Calcula el tiempo y la envolvente para el efecto Wah-Wah
+% t = (0:length(y)-1) / Fs;
+% envelope = 1 + sin(2 * pi * modulationRate * t);
+% 
+% % Inicializa la señal de salida
+% outputSignal = zeros(size(y));
+% 
+% % Aplica el efecto Wah-Wah
+% for i = 1:length(y)
+%     fc = fcMin + (fcMax - fcMin) * envelope(i);
+%     [b, a] = butter(2, [fc*0.8 fc*1.2]/(Fs/2), 'bandpass'); % Filtro paso banda
+%     outputSignal(i) = filter(b, a, y(i));
+% end
+% 
+% % Normaliza la señal de salida
+% outputSignal = outputSignal / max(abs(outputSignal));
+% pause(5)
+% % Reproduce la señal de salida
+% sound(outputSignal, Fs);
 
 % Parámetros del efecto de reverberación
 inputSignal = y;
@@ -102,9 +102,12 @@ end
 
 % Normaliza la señal de salida
 outputSignal = outputSignal / max(abs(outputSignal));
-pause(5)
+%pause(5)
 % Reproduce la señal de salida
 sound(outputSignal, Fs);
+figure
+plot(t,outputSignal)
+grid on
 
 % Parámetros del efecto de vibrato
 
